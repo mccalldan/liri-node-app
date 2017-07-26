@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/mccalldan/liri-node-app#readme",
   "dependencies": {
+    "express": "^4.15.3",
+    "g": "^2.0.1",
+    "generator": "^1.0.1",
+    "inquirer": "^3.2.1",
     "node-spotify-api": "^1.0.5",
     "request": "^2.81.0",
     "twitter": "^1.7.1"
