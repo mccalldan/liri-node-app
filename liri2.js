@@ -1,4 +1,3 @@
-// Node Packages
 var keys = require("./key.js");
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
@@ -10,7 +9,7 @@ var inquirer = require("inquirer");
 var action = process.argv[2];
 
 switch (action) {
-	case "my-tweets":
+  case "my-tweets":
     myTweets();
     break;
 
@@ -24,50 +23,33 @@ switch (action) {
 }
 
 
-// Grabbing Tweets
+
+
+
+
 
 function myTweets() {
 	var client = new Twitter(keys.twitterKeys);
 	var params = {screen_name: 'nocomment919'};
 	client.get('statuses/user_timeline',params, function(error, tweets, response) {
-  	if(error) throw error;
+  	if(!error) /*throw error*/ {}
   		//console.log(tweets);  // The favorites. 
   		//console.log(response);  // Raw response object.
+        /*for(var i=0; i < 20; i++) {
+        if(tweets[i]) {
+          console.log(tweets[i].text);*/
       console.log("--------My Tweets--------");
-  		for(var i=0; i < 20; i++) {
-  			if(tweets[i]) {
-          console.log("=============================");
-          console.log("Tweet:");
-  				console.log(tweets[i].text);
-          console.log("Time created:");
-          console.log(tweets[i].created_at);
-  			}
-  		} 
-	});
-}
-
-
-
-// Spotifying Songs
-
-function spotifyThisSong() {
-
-
-}
-
-// Movie Info
-
-function movieThis() {
-
-/*inquirer.prompt([
-    {
-      type: "input",
-      message: "What movie are you interested in?",
-      name: "movie",
+        tweets.forEach(function(obj) {
+          for(var i = 0; i < 20; i++) {
+        console.log("Time: " + obj.created_at);
+        console.log("Tweet: " + obj.text);}
+        });
       
-    }
-    ])*/
+      /*else { console.log(error);}*/
+    
+  
 
-    var movieName = process.argv[3];
-    console.log(movieName);
- }
+});
+
+}
+
