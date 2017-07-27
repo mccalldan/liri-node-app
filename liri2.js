@@ -90,19 +90,21 @@ function spotifyThisSong(keyword) {
 
 function doWhatItSays(){
 
-  command1 = process.argv[2];
-  command2 = process.argv[3];
-
-  fs.readFile('random.txt', 'utf8', command1, command2, function(err, data) {
+  
+  fs.readFile('random.txt', 'utf8', function(err, data) {
       if(err) throw err;
       console.log(data.toString());
 
-     var rand = data.toString().split(',');
+      var rand = data.toArray();
+     
      
      
 
-    
+     
+
     });
+
+
   }
 
 function logData(data) {
