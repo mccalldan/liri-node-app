@@ -56,12 +56,10 @@ function myTweets() {
 
 function spotifyThisSong(keyword) {
 
+    // Calling exported keys from key.js
+    var spotify = new Spotify(keys.spotifyKeys);
 
-var spotify = new Spotify({
-  id: 'e86b36c6edf64299a90090662e191562',
-  secret: '44c7505bd44f4f5eb222e5b2fda65131'
-  });
-
+    // Query function
     spotify.search({ type: 'track', query: keyword || 'The Sign Ace of Base' }, function(err, data) {
       if ( err ) {
           console.log('Error occurred: ' + err);
