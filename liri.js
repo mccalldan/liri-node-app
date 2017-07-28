@@ -4,35 +4,39 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require("fs");
-var inquirer = require("inquirer");
 
-
+// Command Line Input for Action
 var action = process.argv[2];
+// Command Line Input for Song or Movie Title
+var lastArg = process.argv[3];
 
+// Switchboard Operators
 switch (action) {
 	case "my-tweets":
     myTweets();
     break;
 
     case "spotify-this-song":
-    spotifyThisSong();
+    spotifyThisSong(lastArg);
     break;
 
     case "movie-this":
-    movieThis();
+    movieThis(lastArg);
+    break;
+
+    case "do-what-it-says":
+    doWhatItSays();
     break;
 }
 
 
-// Grabbing Tweets
+// Grabbing Tweets Function
 
 function myTweets() {
 	var client = new Twitter(keys.twitterKeys);
 	var params = {screen_name: 'nocomment919'};
 	client.get('statuses/user_timeline',params, function(error, tweets, response) {
   	if(error) throw error;
-  		//console.log(tweets);  // The favorites. 
-  		//console.log(response);  // Raw response object.
       console.log("--------My Tweets--------");
   		for(var i=0; i < 20; i++) {
   			if(tweets[i]) {
@@ -48,11 +52,11 @@ function myTweets() {
 
 
 
-// Spotifying Songs
+// Spotifying Songs Function
 
 function spotifyThisSong(keyword) {
 
-var keyword = process.argv[3];
+
 var spotify = new Spotify({
   id: 'e86b36c6edf64299a90090662e191562',
   secret: '44c7505bd44f4f5eb222e5b2fda65131'
@@ -69,8 +73,8 @@ var spotify = new Spotify({
 
         console.log(' ');
         console.log('================================');
-        console.log('Artist: ' + record.artists[0].name);
         console.log('Name: ' + record.name);
+        console.log('Artist: ' + record.artists[0].name);
         console.log('Link: ' + record.preview_url);
         console.log('Album: ' + record.album.name);
         console.log(' ');
@@ -82,11 +86,10 @@ var spotify = new Spotify({
    });
 }
 
-// Movie Info
+// Movie Info Function (OMBD)
 
 function movieThis(query) {
 
-    var query = process.argv[3];
 
     request('http://www.omdbapi.com/?t=' + (query || 'Mr.Nobody') +'&tomatoes=true&apikey=40e9cece', function (error, response, info) {
       if (!error && response.statusCode == 200) {
@@ -108,3 +111,26 @@ function movieThis(query) {
     });
   };
   
+  // Function based on contents of random.txt
+
+  function doWhatItSays(){
+
+  // Reads file specified
+  fs.readFile('random.txt', 'utf8', function(err, data) {
+      if(err) throw err;
+      console.log(data.toString());
+  
+      var rand = data.split(",");
+
+     var randButton = rand[0];
+     randButton2 = rand[1];
+
+     
+     spotifyThisSong(rand[1]);
+
+     
+
+    });
+
+
+  }

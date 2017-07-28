@@ -4,9 +4,10 @@ var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require("fs");
 var inquirer = require("inquirer");
-
+var randButton2;
 
 var action = process.argv[2];
+var lastArg = process.argv[3];
 
 switch (action) {
   case "my-tweets":
@@ -14,11 +15,11 @@ switch (action) {
     break;
 
     case "spotify-this-song":
-    spotifyThisSong();
+    spotifyThisSong(lastArg);
     break;
 
     case "movie-this":
-    movieThis();
+    movieThis(lastArg);
     break;
 
     case "do-what-it-says":
@@ -30,7 +31,6 @@ switch (action) {
 
 function spotifyThisSong(keyword) {
 
-    var keyword = process.argv[3];
     var spotify = new Spotify({
     id: 'e86b36c6edf64299a90090662e191562',
     secret: '44c7505bd44f4f5eb222e5b2fda65131'
@@ -47,8 +47,8 @@ function spotifyThisSong(keyword) {
 
         console.log(' ');
         console.log('================================');
-        console.log('Artist: ' + record.artists[0].name);
         console.log('Name: ' + record.name);
+        console.log('Artist: ' + record.artists[0].name);
         console.log('Link: ' + record.preview_url);
         console.log('Album: ' + record.album.name);
         console.log(' ');
@@ -63,7 +63,7 @@ function spotifyThisSong(keyword) {
 
  function movieThis(query) {
 
-    var query = process.argv[3];
+    
 
     request('http://www.omdbapi.com/?t=' + (query || 'Mr.Nobody') +'&tomatoes=true&apikey=40e9cece', function (error, response, info) {
       if (!error && response.statusCode == 200) {
@@ -95,10 +95,15 @@ function doWhatItSays(){
       if(err) throw err;
       console.log(data.toString());
 
-      var rand = data.toArray();
+      var rand = data.split(",");
+
+     console.log(rand);
+
+     var randButton = rand[0];
+     randButton2 = rand[1];
+
      
-     
-     
+     spotifyThisSong(rand[1]);
 
      
 
